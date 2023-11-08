@@ -1,19 +1,17 @@
-# Using Ubuntu as the base image
-FROM ubuntu:latest
+# Use an official Node.js runtime as the base image
+FROM node:14
 
-RUN apt-get update && apt-get install -y \
-    git \
-    nginx
+# Set the working directory in the container
+WORKDIR /app
 
-# Cloning the 2048 game repository from GitHub
-RUN git clone https://github.com/gabrielecirulli/2048.git /var/www/html/2048
+# Clone the 2048 game code from a public repository (replace with the actual repository URL)
+RUN git clone https://github.com/gabrielecirulli/2048.git
 
-RUN rm /etc/nginx/sites-enabled/default
+# Install the game dependencies
+RUN npm install
 
-COPY 2048-nginx.conf /etc/nginx/sites-enabled/
+# Expose port 8000
+EXPOSE 8000
 
-# Expose port 80 for Nginx
-EXPOSE 80
-
-# Starting Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Node.js application (modify the entry point if necessary)
+CMD [ "node", "application.js" ]
